@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+<style>
+    .Red {
+        color: Red;
+    }
+    .Yellow {
+        color: Yellow;
+    }
+      .Blue {
+        color: Blue;
+    }
+      .Green {
+        color: Green;
+    }
+    .Gray {
+        color: Gray;
+    }
+    .Black{
+         color: orange;
+    }
+
+</style>
+<body ng-app="" ng-init="colors=''">
+
+<p>Choose a class:</p>
+
+<select ng-model="colors">
+<option value="">NONE</option>
+<option value="RedClass">Red</option>
+<option value="YellowClass">Yellow</option>
+<option value="BlueClass">Blue</option>
+<option value="GreenClass">Green</option>
+<option value="GrayClass">Gray</option>
+</select>
+
+<div ng-class="{'RedClass':'Red', 'YellowClass':'Yellow', 'BlueClass':'Blue', 'GreenClass':'Green', 'GrayClass':'Gray'}[colors]"><h1>{{colors}}</h1></div>
+</body>
+</html>
+
+
+
+
+
+

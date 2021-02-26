@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ng-switch tab navigation</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+</head>
+<body ng-app="myApp" ng-controller="myCtrl" >
+
+    <div class="container">
+    	<h2>Filters in AngularJs</h2>
+    	<table class="table table-striped">
+    		<tr>
+    			<th colspan="4"> 
+	   				<input id="search" class="form-control" type="text" ng-model="searchText.$" 
+	   				placeholder="Serch">
+	   			</th>
+    			<th> Strict <input type="checkbox" ng-model="strictCheck"></th>
+    		</tr>
+    		<tr>
+    			<th>Sl No</th>
+    			<th>Name</th>
+    			<th>Gender</th>
+    			<th>City</th>
+    			<th>Pincode</th>
+    		</tr>
+    		<tr ng-repeat="p in persons | filter:searchText:applyStrictCheck">
+    			<td>{{$index+1}}</td>
+    			<td>{{p.name}}</td>
+    			<td>{{p.gender}}</td>
+    			<td>{{p.city}}</td>
+    			<td>{{p.pincode}}</td>
+    		</tr>
+    	</table>
+    </div>
+	<div class="container">
+	  <h2>Different Search Criteria</h2>
+	  <form class="form-horizontal">
+	    <div class="form-group">
+	      <label class="control-label col-sm-2" for="name">Search By Name :</label>
+	      <div class="col-sm-10">
+	        <input type="text" class="form-control" id="name" placeholder="Enter name" ng-model="searchText.name">
+	      </div>
+	    </div>
+	    <div class="form-group">
+	      <label class="control-label col-sm-2" for="city">Search By City :</label>
+	      <div class="col-sm-10">          
+	        <input type="text" class="form-control" id="city" placeholder="Enter city" ng-model="searchText.city">
+	      </div>
+	    </div>
+	    <div class="form-group">
+	      <label class="control-label col-sm-2" for="gender">Search By Gender :</label>
+	      <div class="col-sm-10">          
+	        <input type="text" class="form-control" id="gender" placeholder="Enter gender" ng-model="searchText.gender">
+	      </div>
+	    </div>
+	    <div class="form-group">
+	      <label class="control-label col-sm-2" for="pincode">Search By pincode :</label>
+	      <div class="col-sm-10">          
+	        <input type="text" class="form-control" id="pincode" placeholder="Enter pincode" ng-model="searchText.pincode">
+	      </div>
+	    </div>
+	  </form>
+	</div>
+
+</body>
+</html>
+
+<script>
+
+    var app = angular.module("myApp", []);
+
+    app.controller('myCtrl', ['$scope', function ($scope) {
+        $scope.persons = [	
+        	{name:'Ram', gender:'Male', city:'Hydrabad', pincode:'585103'},
+			{name:'Sham', gender:'Male', city:'Pune', pincode:'585102'},
+			{name:'Pooja', gender:'Female', city:'Mumbai', pincode:'585103'},
+			{name:'Hemanth', gender:'Male', city:'Bangalore', pincode:'565443'},
+			{name:'Bhavan', gender:'Male', city:'Pune', pincode:'334235'},
+			{name:'Bhama', gender:'Female', city:'Chennai', pincode:'578932'},
+			{name:'Manju', gender:'Male', city:'Bangalore', pincode:'534555'}
+		];
+		$scope.strictCheck = false;
+
+		$scope.applyStrictCheck = function(input, searchText)	{
+
+			if($scope.strictCheck)	{
+
+				if(input.search(searchText) > -1)	
+					return true;
+				else
+					return false;
+			}else{
+
+				if(input.toLowerCase().search(searchText.toLowerCase()) > -1)	
+					return true;
+				else
+					return false;
+			}
+		};
+    }]);
+</script>
+

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ng-switch tab navigation</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<style>
+body{
+	padding-top:100px;
+}
+</style>
+</head>
+<body ng-app="myApp" ng-controller="myCtrl" >
+
+    <div class="container">
+    	<table class="table table-striped">
+    		<tr>
+    			<th colspan="3"> 
+	   				<input id="search" class="form-control" type="text" ng-model="searchText" placeholder="Serch">
+	   			</th>
+                <th>
+                    <input type="checkbox" ng-model="caseSensitive">case sensitive
+                </th>
+                <th>
+                    <select ng-model="criteriaType">
+                        <option value="">Search by</option>
+                        <option value="name" selected="selected">Name</option>
+                        <option value="city">City</option>
+                        <option value="pincode">Pincode</option>
+                    </select>
+                </th>
+    		</tr>
+    		<tr>
+    			<th>Sl No</th>
+    			<th>Name</th>
+    			<th>Gender</th>
+    			<th>City</th>
+                <th>Pincode</th>
+                <th></th>
+    		</tr>
+    		<tr ng-repeat="p in persons | mySearchFilter:searchText:caseSensitive:criteriaType">
+    			<td>{{$index+1}}</td>
+    			<td>{{p.name}}</td>
+    			<td>{{p.gender | mapGenderToString}}</td>
+    			<td>{{p.city}}</td>
+    			<td>{{p.pincode}}</td>
+    		</tr>
+    	</table>
+
+        <h1>{{"Hello World" | equalsTo : "Dead World" : "Ok" : "OMG" }}</h1>
+
+        <pre>{{persons | json}}</pre>
+    </div>
+</body>
+</html>
+
+<script>
+    var app = angular.module("myApp", []);
+
+    app.filter("equalsTo", function(){
+
+        return function(defaultParam,  s1,  s2,  s3)   {
+
+            if(angular.equals(defaultParam,  s1))
+                return s2;
+            else
+                return s3;
+
+        };
+    });
+
+    app.filter("mapGenderToString", function(){
+    	return function(gen){
+    		var textGender = 'not determined';
+    		switch(gen){
+    			case 1: textGender = 'Male';
+    					break;
+    			case 2: textGender = 'Female';
+    					break;
+    		}
+    		return textGender;
+    	};
+    });
+
+    app.filter("mySearchFilter", function(){
+    	return function(persons, searchText, caseSensitive, fieldName){
+
+    		var effectedResults = [];
+    		var jsonKey = 'name';
+			
+			if(fieldName != undefined && fieldName != '')	{
+				jsonKey = fieldName;
+			}
+
+    		for (var i = 0; i < persons.length; i++)	{
+    
+        		if(searchText == undefined || searchText == '')	{
+
+        			effectedResults.push(persons[i]);
+	    		}else{
+
+	    			if(caseSensitive)	{
+		    			if(persons[i][jsonKey].search(searchText) > -1){
+			    			effectedResults.push(persons[i]);
+	    				}
+	    			}else{
+		    
+		    			if(persons[i][jsonKey].toLowerCase().search(searchText.toLowerCase()) > -1){
+			    			effectedResults.push(persons[i]);
+	    				}
+	    			}
+	    		}
+
+    		}
+    		return effectedResults;	
+    	};
+	});
+
+    app.controller('myCtrl', ['$scope', function ($scope) {
+        $scope.persons = [
+        	{name:'Ram', gender:1, city:'Hydrabad', pincode:'585103'},
+			{name:'Sham', gender:1, city:'Pune', pincode:'585102'},
+			{name:'Pooja', gender:2, city:'Mumbai', pincode:'585103'},
+			{name:'Hemanth', gender:1, city:'Bangalore', pincode:'565443'},
+			{name:'Bhavan', gender:1, city:'Pune', pincode:'334235'},
+			{name:'Bhama', gender:2, city:'Chennai', pincode:'578932'},
+			{name:'Manju', gender:1, city:'Bangalore', pincode:'534555'},
+			{name:'Saint Josh', gender:3, city:'Pune', pincode:'334235'}
+		];
+    }]);
+</script>

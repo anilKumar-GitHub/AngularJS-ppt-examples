@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ng-built-in filter</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+</head>
+<body ng-app="myApp" ng-controller="myCtrl" >
+
+    <div class="container">
+    	<h2>Filters in AngularJs</h2>
+    	<table class="table table-striped">
+    		<tr>
+    			<th colspan="5"> 
+	   				<input id="search" class="form-control" type="text" ng-model="searchText.$" 
+	   				placeholder="Serch">
+	   			</th>
+    			<th> Strict <input type="checkbox" ng-model="strictCheck"></th>
+    		</tr>	
+    		<tr>
+    			<th>Sl No</th>
+    			<th ng-click="orderByFiled='name'">Name</th>
+    			<th ng-click="orderByFiled='lastname'">Last Name</th>
+    			<th ng-click="orderByFiled='dob'">Date Of Birth</th>
+    			<th ng-click="orderByFiled='city'">City</th>
+    			<th ng-click="orderByFiled='AccBalance'">Account Balance</th>
+    		</tr>
+    		<tr ng-repeat="p in persons | filter:searchText:strictCheck 
+    									| orderBy:sortLikeThis():reverse">
+    			<td>{{$index+1 | number}}</td>
+    			<td>{{p.name | uppercase }}</td>
+    			<td>{{p.lastname | lowercase }}</td>
+    			<td>{{p.dob | date}}</td>
+    			<td>{{p.city}}</td>
+    			<td>{{p.AccBalance | currency }}</td>
+    		</tr>
+    	</table>
+
+    </div>
+</body>
+</html>
+
+<script>
+
+    var app = angular.module("myApp", []);
+
+    app.controller('myCtrl', ['$scope', function ($scope) {
+
+        $scope.persons = [
+			{name:'Ram', lastname:'Patil', city:'Hydrabad', dob:'1992-02-08', AccBalance:'585103'},
+			{name:'Sham', lastname:'Sunder', city:'Pune', dob:'1994-06-05', AccBalance:'585102'},
+			{name:'Pooja', lastname:'Patil', city:'Mumbai', dob:'1989-12-15', AccBalance:'585103'},
+			{name:'Hemanth', lastname:'Math', city:'Bangalore', dob:'1981-02-19', AccBalance:'565443'},
+			{name:'Bhama', lastname:'Podar', city:'Pune', dob:'1991-07-10', AccBalance:'334235'},
+			{name:'Bhama', lastname:'Mani', city:'Chennai', dob:'1993-09-26', AccBalance:'578932'},
+			{name:'Manju', lastname:'Hegde', city:'Bangalore', dob:'1985-01-05', AccBalance:'534555'}
+		];
+
+		$scope.strictCheck = false;
+		$scope.orderByFiled = 'name';
+		$scope.reverse = true;
+		$scope.numberOfRows = 3;
+		$scope.startsFrom = 1;
+
+        $scope.sortLikeThis = function()    {
+
+            var fieldList = ['name', 'lastname','city','dob','AccBalance'];
+            var newList = [];
+            newList.push($scope.orderByFiled);
+
+            angular.forEach(fieldList, function(itField) {
+                if(itField != $scope.orderByFiled)    {
+                    newList.push(itField);
+                }
+            });
+
+            $scope.reverse = !$scope.reverse;
+            return newList;
+        };
+    }]);
+</script>

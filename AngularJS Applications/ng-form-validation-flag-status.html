@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>form validation</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>  
+
+	<style>
+		input{
+			font-weight: bold;
+		}
+		input.ng-invalid	{
+			color: white;
+			background-color: tomato;
+		}
+		input.ng-valid	{
+			border-color: green;
+		}
+		span span {
+			color: red;
+		}
+
+		div form div div{
+			font-size: 14px;
+		}
+		div form div div span{
+			color:red;
+			font-weight: bold;
+		}
+
+	</style>
+</head>
+<body>
+<div class="container">
+	<h2>Validation Example</h2>
+	<form class="form" ng-app="myApp" ng-controller="validateCtrl" name="myForm" novalidate>
+		<div class="form-group">
+			<label for="user">Name:</label>
+			<input 	type="text" class="form-control" id="user" placeholder="Enter user name" 
+					name="user" ng-model="user" ng-minlength="3" ng-maxlength="20" required>
+			<span ng-show="myForm.user.$dirty && myForm.user.$invalid">
+				<span ng-show="myForm.user.$error.required">Username is required.</span>
+				<span ng-show="myForm.user.$error.minlength">minimum 3 character.</span>
+				<span ng-show="myForm.user.$error.maxlength">maximum 20 character.</span>
+			</span>
+		</div>
+		<div class="form-group">
+			<label for="user">Password:</label>
+			<input 	type="password" class="form-control" id="password" placeholder="Enter password"
+					name="password" ng-model="password" ng-minlength="8" ng-maxlength="20" ng-pattern="/^[a-z]+$/" required>
+			<span ng-show="myForm.password.$dirty && myForm.password.$invalid">
+				<span ng-show="myForm.password.$error.required">password is required.</span>
+				<span ng-show="myForm.password.$error.minlength">minimum 8 character.</span>
+				<span ng-show="myForm.password.$error.maxlength">maximum 20 character.</span>
+				<span ng-show="myForm.password.$error.pattern">password is not valid.</span>
+			</span>
+		</div>
+		<div class="form-group">
+			<label for="email">Email:</label>
+			<input 	type="email" class="form-control" id="email1" placeholder="Enter email"
+					name="email" ng-model="email" required>
+			<span ng-show="myForm.email.$dirty && myForm.email.$invalid">
+				<span ng-show="myForm.email.$error.required">Email is required.</span>
+				<span ng-show="myForm.email.$error.email">Invalid email address.</span>
+			</span>
+		</div>
+		<div class="form-group">
+			<label for="email">Date:</label>
+			<input 	type="date" class="form-control" id="date" placeholder="Enter date"
+					name="date" ng-model="date" min="2013-01-01" max="2013-01-31" required>
+
+			<span ng-show="myForm.date.$dirty && myForm.date.$invalid">
+				<span ng-show="myForm.date.$error.required">date is required.</span>
+				<span ng-show="myForm.date.$error.date">Invalid date address.</span>
+			</span>
+		</div>
+
+		
+		<button type="submit" class="btn btn-default" ng-disabled="myForm.user.$dirty && myForm.user.$invalid || myForm.email.$dirty && myForm.email.$invalid || myForm.date.$dirty && myForm.date.$invalid || myForm.password.$dirty && myForm.password.$invalid">Submit
+		</button>
+
+		<button type="submit" class="btn btn-default" ng-disabled="myForm.$invalid && myForm.$dirty">Submit
+		</button>
+
+		<br/><br/>
+		<div class="container row">
+			<div class="col-xs-4">
+				<label>username Status</label>
+				<div>
+					<label>myForm.user.$valid : </label>
+					<span>{{myForm.user.$valid}}</span>
+				</div>
+				<div>
+					<label>myForm.user.$dirty : </label>
+					<span>{{myForm.user.$dirty}}</span>
+				</div>
+				<div>
+					<label>myForm.user.$error.required : </label>
+					<span>{{myForm.user.$error.required}}</span>
+				</div>
+				<div>
+					<label>myForm.user.$error.minlength : </label>
+					<span>{{myForm.user.$error.minlength}}</span>
+				</div>
+				<div>
+					<label>myForm.user.$error.maxlength : </label>
+					<span>{{myForm.user.$error.maxlength}}</span>
+				</div>
+				<hr/>
+			</div>
+
+			<div class="col-xs-4">
+				<label>password Status</label>
+				<div>
+					<label>myForm.password.$valid : </label>
+					<span>{{myForm.password.$valid}}</span>
+				</div>
+				<div>
+					<label>myForm.password.$dirty : </label>
+					<span>{{myForm.password.$dirty}}</span>
+				</div>
+				<div>
+					<label>myForm.password.$error.required : </label>
+					<span>{{myForm.password.$error.required}}</span>
+				</div>
+				<div>
+					<label>myForm.password.$error.minlength : </label>
+					<span>{{myForm.password.$error.minlength}}</span>
+				</div>
+				<div>
+					<label>myForm.password.$error.maxlength : </label>
+					<span>{{myForm.password.$error.maxlength}}</span>
+				</div>
+				<div>
+					<label>myForm.password.$error.pattern : </label>
+					<span>{{myForm.password.$error.pattern}}</span>
+				</div>
+				<hr/>
+			</div>
+
+			<div class="col-xs-4">
+				<label>Email Status</label>
+				<div>
+					<label>myForm.email.$valid : </label>
+					<span>{{myForm.email.$valid}}</span>
+				</div>
+				<div>
+					<label>myForm.email.$dirty : </label>
+					<span>{{myForm.email.$dirty}}</span>
+				</div>
+				<div>
+					<label>myForm.email.$error.required : </label>
+					<span>{{myForm.email.$error.required}}</span>
+				</div>
+				<div>
+					<label>myForm.email.$error.email : </label>
+					<span>{{myForm.email.$error.email}}</span>
+				</div>
+				<hr/>
+			</div>
+
+			<div class="col-xs-4">
+				<label>Date Status</label>
+				<div>
+					<label>myForm.date.$valid : </label>
+					<span>{{myForm.date.$valid}}</span>
+				</div>
+				<div>
+					<label>myForm.date.$dirty : </label>
+					<span>{{myForm.date.$dirty}}</span>
+				</div>
+				<div>
+					<label>myForm.date.$error.required : </label>
+					<span>{{myForm.date.$error.required}}</span>
+				</div>
+				<div>
+					<label>myForm.date.$error.date : </label>
+					<span>{{myForm.date.$error.date}}</span>
+				
+				</div>
+				<hr/>
+			</div>
+
+			<div class="col-xs-4">
+				<label>Input Fields Status</label>
+				<div>
+					<label>myForm.email.$valid : </label>
+					<span>{{myForm.email.$valid}}</span>
+				</div>
+				<div>
+					<label>myForm.email.$invalid : </label>
+					<span>{{myForm.email.$invalid}}</span>
+				</div>
+				<div>
+					<label>myForm.email.$dirty : </label>
+					<span>{{myForm.email.$dirty}}</span>
+				</div>
+				<div>
+					<label>myForm.email.$touched : </label>
+					<span>{{myForm.email.$touched}}</span>
+				</div>			
+				<div>
+					<label>myForm.email.$untouched  : </label>
+					<span>{{myForm.email.$untouched}}</span>
+				</div>
+				<div>
+					<label>myForm.email.$pristine  : </label>
+					<span>{{myForm.email.$pristine}}</span>
+				</div>
+				<hr/>
+			</div>
+
+			<div class="col-xs-4">
+				<label>Form Status</label>
+				<div>
+					<label>myForm.$valid : </label>
+					<span>{{myForm.$valid}}</span>
+				</div>
+				<div>
+					<label>myForm.$invalid : </label>
+					<span>{{myForm.$invalid}}</span>
+				</div>
+				<div>
+					<label>myForm.$dirty : </label>
+					<span>{{myForm.$dirty}}</span>
+				</div>
+				<div>
+					<label>myForm.$submitted  : </label>
+					<span>{{myForm.$submitted}}</span>
+				</div>
+				<div>
+					<label>myForm.$pristine  : </label>
+					<span>{{myForm.$pristine}}</span>
+				</div>
+				<hr/>
+			</div>
+		</div>
+	</form>
+</div>
+</body>
+</html>
+
+<script>
+	var app = angular.module('myApp', []);
+	
+	app.controller('validateCtrl', function($scope) {
+	    $scope.user = 'John Doe';
+	    $scope.email = 'john.doe@gmail.com';
+	    $scope.password = 'sdfadfasdfdafsdf'
+	    $scope.date = new Date();
+	});
+</script>

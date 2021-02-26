@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ng-switch tab navigation</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<style>
+body{
+	padding-top:100px;
+}
+</style>
+</head>
+<body ng-app="switchExample">
+    <div ng-controller="ExampleController">
+        <div class="container">
+            <div class="col-xs-12">
+				<ul class="nav nav-tabs">
+					<li ng-class="{active: tab == 'Angular'}" 
+						ng-click="tab='Angular'"><a href="#"><b>Angular</b></a></li>
+						
+					<li ng-class="{active: tab == 'Jquery'}" 
+						ng-click="tab='Jquery'"><a href="#"><b>Jquery</b></a></li>
+					
+					<li ng-class="{active: tab == 'Bootstrap'}" 
+						ng-click="tab='Bootstrap'"><a href="#"><b>Bootstrap</b></a></li>
+					
+					<li ng-class="{active: tab == 'W3.CSS'}" 
+						ng-click="tab='W3.CSS'"><a href="#"><b>W3.CSS</b></a></li>
+
+					</ul>
+   
+                <div class="row" ng-switch="tab">
+                    <div class="col-md-3" ng-switch-when="Angular">
+                        <h3>Angular JS</h3><br />
+                        HTML is great for declaring static documents, but it falters when we try to use it for declaring dynamic views in web-applications. AngularJS lets you extend HTML vocabulary for your application. The resulting environment is extraordinarily expressive, readable, and quick to develop.
+						<hr/>
+						<select ng-model="selection" ng-options="item for item in items"></select>
+						<code>selection={{selection}}</code>
+						<hr/>
+						<div class="animate-switch-container" ng-switch on="selection">
+							<div ng-switch-when="settings">Settings Div</div>
+							<div ng-switch-when="options">options Div</div>
+							<div ng-switch-when="home">Home Span</div>
+							<div ng-switch-default>default</div>
+						</div>
+                    </div>
+                    <div class="col-md-3" ng-switch-when="Jquery">
+                        <h3>Jquery</h3><br />
+                        jQuery is a cross-platform JavaScript library designed to simplify the client-side scripting of HTML. jQuery is the most popular JavaScript library in use today, with installation on 65% of the top 10 million highest-trafficked sites on the Web. jQuery is free, open-source software licensed under the MIT License.
+                    </div>
+                    <div class="col-md-3" ng-switch-when="Bootstrap">
+                        <h3>Bootstrap</h3><br />
+                        Bootstrap is a technique of loading a program into a computer by means of a few initial instructions which enable the introduction of the rest of the program from an input device.
+                    </div>
+                    <div class="col-md-3" ng-switch-when="W3.CSS">
+                        <h3>W3.CSS</h3><br />
+						W3.CSS is a Cascading Style Sheet (CSS) developed by w3schools.com. It helps in creating faster, beautiful, and responsive websites. It is inspired from Google Material Design
+                    </div>
+                    <div class="col-md-3" ng-switch-default>
+                        <h3>JavaScript</h3><br />
+						JavaScript is the programming language of HTML and the Web.
+
+						JavaScript is easy to learn.
+
+						This tutorial will teach you JavaScript from basic to advanced.						
+						<br/><br/><br/><br/><br/><br/>
+							<div class="row">
+							<div class="col-md-4  col-lg-10">
+								<select class="form-control" ng-model="ishide" ng-options="t.ishide as t.text for t in temp"></select>
+							</div>
+							<div class="col-md-10  col-lg-10" ng-switch="ishide">
+								<div ng-switch-when="true" class="well col-md-10" style="background-color:AppWorkspace;">Show Example</div>
+								<div ng-switch-when="false" class="well col-md-10" style="background-color:salmon;">Hide Example</div>
+							</div>
+						</div>
+                    </div>
+                </div>
+				<br/><br/><br/><hr/>
+				<div class="container">
+					<h2>
+						<input type="radio" value="apple" ng-model="fruits"> Apple
+						<input type="radio" value="banana" ng-model="fruits"> Banana
+						<input type="radio" value="mango" ng-model="fruits"> Mango
+						<br/><br/>
+						<div ng-switch="fruits">
+							<div ng-switch-when="apple">A for Apple</div>
+							<div ng-switch-when="banana">B for Banana</div>
+							<div ng-switch-when="mango">C for Chotta Mango</div>
+							<div ng-switch-default="mango">Select a Fruit</div>
+						</div>
+					</h2>
+				</div>
+				</div>            
+				
+        </div>
+    </div>
+    <script>
+    var app = angular.module("switchExample", []);
+    app.controller('ExampleController', ['$scope', function ($scope) {
+        $scope.tab = 'JavaScript';
+		$scope.temp = [{ text: "Hide", ishide: true }, { text: "Show", ishide: false }];
+		$scope.items = ['settings', 'home', 'options', 'other'];
+		$scope.selection = 'other';
+    }]);
+</script>
+</body>
+</html>
+

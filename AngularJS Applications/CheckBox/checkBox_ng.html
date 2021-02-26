@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>AngularJS Checkboxes Checked</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+    
+</head>
+<script type="text/javascript">
+var myModule = angular.module('webApp', []);
+// create angular controller
+
+myModule.controller('FormCtrl', ['$scope','$filter', '$q', function($scope, $filter, $q) {
+  	
+  	$scope.getChecked = function(){
+      	$scope.recursiveChecked = [];
+        //recursive
+        pushThese($scope.labels);
+      	console.log($scope.labels);
+    }; 
+
+    var pushThese = function(ar){
+      ar.forEach(function(e){
+      	if(e.selected) $scope.recursiveChecked.push(e);
+        if(e.artists && e.artists.length) pushThese(e.artists);
+      });
+    }
+  	
+    $scope.clicker = function(label){
+      label.artists.forEach(function(e){
+        e.selected = !label.selected;
+      });
+    };
+    
+    //Random JSON object
+  	$scope.labels = 
+      [
+        {
+          label: 'Death Row Records', 
+          selected: false, 
+          artists: [
+            {artist: 'MC Hammer', selected: false},
+            {artist: 'Andre "Dr. Dre" Young', selected: false},
+            {artist: 'Snoop Dogg', selected: false},
+            {artist: 'Tupac Shakur', selected: false},
+            {artist: 'Nate Dogg', selected: false},
+          ]
+        },
+      	{
+          label: 'Roc-A-Fella Records', 
+          selected: false, 
+          artists: [
+            {artist: 'Jay-Z', selected: false},
+            {artist: 'Kanye West', selected: false},
+            {artist: 'Freeway', selected: false},
+            {artist: 'Jadakiss', selected: false},
+            {artist: 'Beanie Sigel', selected: false},
+          ]
+        },
+      ];
+  
+
+    }]);
+</script>
+<body ng-app="webApp">
+  
+    <h3>Check "Death Row Records" and then select the 'click me!' button</h3>
+    <p>It will return an array of objects that have been checked</p>
+    
+  <div class="container"  ng-controller="FormCtrl">
+    <div class="row">  
+      <div class="col-lg-2">
+          <ul>
+            <li ng-repeat="label in labels"> <input type="checkbox" ng-model="label.selected" ng-click="clicker(label)"> {{label.label}} 
+              <ul>
+                <li ng-repeat="artist in label.artists">
+                  <input type="checkbox" ng-model="artist.selected" > {{artist.artist}}
+                </li>
+              </ul> 
+            </li>  
+          </ul> 
+          <button class="btn btn-default" ng-click="getChecked()">click me!</button>
+      </div> 
+      <br/><br/><br/>
+      <div class="col-lg-6">
+        <div class="col-lg-3">
+        Recurisive Checked labels/Artists Array JSON:
+        </div>
+        <div class="col-lg-3">
+          <strong>{{recursiveChecked}}</strong>
+        </div>  
+      </div>
+      <br/><br/>
+      <div class="col-lg-6">
+        <div class="col-lg-3">
+        Recurisive Checked labels/Artists Array List:
+        </div>
+        <div class="col-lg-3">
+          <ul>
+            <li ng-repeat="i in recursiveChecked">{{$index}} - {{i.label}} - {{i.artist}}.</li>
+          </ul>
+        </div>  
+      </div>
+   
+    </div>
+  </div>    
+</body>
+</html>
+

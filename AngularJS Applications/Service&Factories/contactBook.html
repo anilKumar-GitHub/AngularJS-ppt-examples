@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Factory Service</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<script src="js/angularJs/angular.js"></script>
+<script src="js/controller.js"></script>
+<script src="js/factory-module.js"></script>
+<script src="js/services-module.js"></script>
+
+</head>
+<body ng-app="myapp">
+
+	<div ng-controller="HelloController" align="center" ng-init="to={Name:'To All',World:'AngularJS'};">
+		<h2>Wel Come <span ng-bind="to.Name"></span> to the World of
+		<span ng-bind="to.World"></span><hr/>
+		</h2>
+	</div>
+
+	<div ng-controller="ContactBook" class="container">
+
+		<h1 align="center"><i>{{topic}}</i> No Of Contacts : {{noOfContacts}}</h1>
+		<table class="table">
+			<tr>
+				<th colspan="2">
+					<input type="text" class="form-control" ng-model="query" placeholder="Search" />
+				</th>
+				<th>
+					<input type="button" class="btn btn-default" value="Clear" ng-click="query=''" ng-disabled="query==''"/>
+				</th>
+			</tr>
+			<tr>
+				<th><a href="" ng-click="sortBy('name');">Name</a></th>
+				<th><a href="" ng-click="sortBy('number')">Number</a></th>
+				<th>Action</th>
+			</tr>
+			<tr>
+				<td>
+					<input type='text' class="form-control" ng-model='name' ng-keyup='setOperationalButtonStatus()' placeholder="Enter Name Here">
+				</td>
+				<td>
+					<input type='text' class="form-control" ng-model='number'  ng-keyup='setOperationalButtonStatus()' placeholder="Enter Phone Number Here" /></td>
+				<td>
+					<input type="button" class="btn btn-primary" value="Add" ng-click='addNewContactInfo()' ng-disabled='addButtonDisable' ng-show='addButtonShow' />
+
+					<input type="button" class="btn btn-primary" value="Update" ng-click='updateContactInfo()' ng-disabled='updateButtonDisable' ng-show='updateButtonShow' />
+					<input type="button" class="btn btn-default" value="Clear" ng-click="clearInputs()" ng-disabled="name==''&&number==''"/>
+
+					<input type="button" class="btn btn-danger" value="Cancel" ng-click='cancelUpdateOperation()' ng-show='cancelUpdateButtonShow' />
+				</td>
+			</tr>
+			<tr ng-repeat="rec in contactsBook | filter:query | orderBy:sortField:reverse | limitTo : noOfRec : startFrom ">
+				<td ng-bind="rec.name"></td>
+				<td ng-bind="rec.number"></td>
+				<td>
+					<input type="button" class="btn btn-success" value="Modify" ng-click='updateThis(rec.name)'>
+					<input type="button" class="btn btn-danger" value="Remove" ng-click='removeThis(rec.name)'>
+				</td>
+			</tr>
+		</table>
+		<select ng-model="hello">
+			<option ng-repeat="n in [10, 20] | forEach" >{{n}}</option>
+		</select>
+	</div>
+</body>
+</html>

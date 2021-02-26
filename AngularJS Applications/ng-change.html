@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<body ng-app="myApp">
+	<div ng-controller="myCtrl">
+
+	<select ng-model="fruit" ng-options="fruit.key as fruit.value for fruit in fruits" ng-change="myFunc()">
+	</select>
+
+		<h1>Selected Fruit {{fruit}}</h1>
+		<h3>The fruit changed nth time is {{count}}.</h3>
+	</div>
+	
+	<script>
+	  angular.module('myApp', [])
+		.controller('myCtrl', ['$scope', function($scope) {
+		  $scope.count = 0;
+		  $scope.fruit = 'Apple';
+		  $scope.myFunc = function() {
+			$scope.count++;
+		  };
+		  
+		  $scope.fruits = [	{key:'Apple', value:'Apple'}, {key:'Mango', value:'Mango'}, {key:'Pinaple', value:'Pinaple'}, 
+							{key:'Banana', value:'Banana'}, {key:'Grapes', value:'Grapes'}];
+		}]);
+	</script>
+</body>
+</html>
